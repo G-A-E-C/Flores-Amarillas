@@ -702,23 +702,29 @@ class FlowerAnimation {
             
             // Agregar el moño encima del ramo
             if (bowContainerPNG && bowImagePNG && bowContainerPNG.classList.contains('show')) {
-                const bowImg = new Image();
-                await new Promise((resolve, reject) => {
-                    bowImg.onload = () => {
-                        // Posicionar el moño en la parte superior del ramo
-                        const bowScale = 0.8;
-                        const bowWidth = 80 * bowScale;
-                        const bowHeight = 60 * bowScale;
-                        const bowX = (canvas.width - bowWidth) / 2;
-                        const bowY = canvas.height / 2 - 200; // Posición superior del ramo
-                        
-                        ctx.drawImage(bowImg, bowX, bowY, bowWidth, bowHeight);
-                        console.log('Moño dibujado en PNG');
-                        resolve();
-                    };
-                    bowImg.onerror = reject;
-                    bowImg.src = bowImagePNG.src;
-                });
+                try {
+                    const bowBase64 = await this.imageToBase64(bowImagePNG);
+                    const bowImg = new Image();
+                    
+                    await new Promise((resolve, reject) => {
+                        bowImg.onload = () => {
+                            // Posicionar el moño en la parte superior del ramo
+                            const bowScale = 0.8;
+                            const bowWidth = 80 * bowScale;
+                            const bowHeight = 60 * bowScale;
+                            const bowX = (canvas.width - bowWidth) / 2;
+                            const bowY = canvas.height / 2 - 200; // Posición superior del ramo
+                            
+                            ctx.drawImage(bowImg, bowX, bowY, bowWidth, bowHeight);
+                            console.log('Moño dibujado en PNG desde base64');
+                            resolve();
+                        };
+                        bowImg.onerror = reject;
+                        bowImg.src = bowBase64;
+                    });
+                } catch (error) {
+                    console.log('Error al cargar moño en PNG:', error);
+                }
             } else {
                 console.log('Moño no se pudo capturar en PNG - container:', !!bowContainerPNG, 'image:', !!bowImagePNG, 'show:', bowContainerPNG?.classList.contains('show'));
             }
@@ -828,23 +834,29 @@ class FlowerAnimation {
             
             // Agregar el moño encima del ramo
             if (bowContainerWP && bowImageWP && bowContainerWP.classList.contains('show')) {
-                const bowImg = new Image();
-                await new Promise((resolve, reject) => {
-                    bowImg.onload = () => {
-                        // Posicionar el moño en la parte superior del ramo
-                        const bowScale = type === 'pc' ? 1.5 : 1.8;
-                        const bowWidth = 80 * bowScale;
-                        const bowHeight = 60 * bowScale;
-                        const bowX = (canvas.width - bowWidth) / 2;
-                        const bowY = canvas.height / 2 - (type === 'pc' ? 300 : 400); // Posición superior del ramo
-                        
-                        ctx.drawImage(bowImg, bowX, bowY, bowWidth, bowHeight);
-                        console.log('Moño dibujado en Wallpaper');
-                        resolve();
-                    };
-                    bowImg.onerror = reject;
-                    bowImg.src = bowImageWP.src;
-                });
+                try {
+                    const bowBase64 = await this.imageToBase64(bowImageWP);
+                    const bowImg = new Image();
+                    
+                    await new Promise((resolve, reject) => {
+                        bowImg.onload = () => {
+                            // Posicionar el moño en la parte superior del ramo
+                            const bowScale = type === 'pc' ? 1.5 : 1.8;
+                            const bowWidth = 80 * bowScale;
+                            const bowHeight = 60 * bowScale;
+                            const bowX = (canvas.width - bowWidth) / 2;
+                            const bowY = canvas.height / 2 - (type === 'pc' ? 300 : 400); // Posición superior del ramo
+                            
+                            ctx.drawImage(bowImg, bowX, bowY, bowWidth, bowHeight);
+                            console.log('Moño dibujado en Wallpaper desde base64');
+                            resolve();
+                        };
+                        bowImg.onerror = reject;
+                        bowImg.src = bowBase64;
+                    });
+                } catch (error) {
+                    console.log('Error al cargar moño en Wallpaper:', error);
+                }
             } else {
                 console.log('Moño no se pudo capturar en Wallpaper - container:', !!bowContainerWP, 'image:', !!bowImageWP, 'show:', bowContainerWP?.classList.contains('show'));
             }
@@ -872,6 +884,43 @@ class FlowerAnimation {
             console.error('Error al crear wallpaper:', error);
             alert(`Error al generar el fondo de pantalla: ${error.message}\n\nIntenta usar la captura de pantalla como alternativa.`);
         }
+    }
+
+    // Convertir imagen a base64 para evitar canvas tainted
+    async imageToBase64(imageElement) {
+        return new Promise((resolve, reject) => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            
+            img.onload = () => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                
+                try {
+                    const dataURL = canvas.toDataURL('image/png');
+                    resolve(dataURL);
+                } catch (error) {
+                    // Si falla CORS, intentar cargar directamente
+                    resolve(imageElement.src);
+                }
+            };
+            
+            img.onerror = () => {
+                // Fallback al src original
+                resolve(imageElement.src);
+            };
+            
+            // Intentar cargar la imagen
+            if (imageElement.src.startsWith('data:')) {
+                resolve(imageElement.src);
+            } else {
+                img.src = imageElement.src;
+            }
+        });
     }
 
     // Convertir SVG a base64 para evitar canvas tainted
