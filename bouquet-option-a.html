@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" cont        /* Lazo removido por petición del usuario */vice-width, initial-scale=1.0">
+    <title>Ramo Radial - Opción A</title>
+    <style>
+        :root {
+            --stem-color: #2e7d32;
+            --stem-gradient-end: #66bb6a;
+            --petal-color-1: #fff200;
+            --petal-color-2: #ffd700;
+            --flower-center: #8B4513;
+            --leaf-color: #4caf50;
+        }
+
+        .bouquet-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            padding: 20px;
+        }
+
+        .bouquet-svg {
+            width: 660px;           /* Ancho mantenido */
+            height: 1800px;         /* Altura ajustada para tallos balanceados */
+            max-width: 90vw;
+            max-height: 80vh;
+        }
+
+        /* Animaciones de tallos */
+        .stem {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: growStem 1s ease-out forwards;
+        }
+
+        .stem-1 { animation-delay: 0.2s; }
+        .stem-2 { animation-delay: 0.3s; }
+        .stem-3 { animation-delay: 0.4s; }
+        .stem-4 { animation-delay: 0.5s; }
+        .stem-5 { animation-delay: 0.6s; }
+        .stem-6 { animation-delay: 0.7s; }
+        .stem-7 { animation-delay: 0.8s; }
+
+        @keyframes growStem {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Animaciones de flores - SIMPLIFICADAS y CORREGIDAS */
+        .flower {
+            opacity: 0;
+            transform-origin: center;
+            animation: bloomFlower 0.8s ease-out forwards;
+        }
+
+        .flower-1 { animation-delay: 1.4s; }
+        .flower-2 { animation-delay: 1.5s; }
+        .flower-3 { animation-delay: 1.6s; }
+        .flower-4 { animation-delay: 1.7s; }
+        .flower-5 { animation-delay: 1.8s; }
+        .flower-6 { animation-delay: 1.9s; }
+        .flower-7 { animation-delay: 2.0s; }
+
+        @keyframes bloomFlower {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Hojas mejoradas - 32 hojas con animaciones escalonadas */
+        .leaf {
+            opacity: 0;
+            animation: growLeaf 0.8s ease-out forwards;
+        }
+
+        /* Animaciones escalonadas para 14 hojas (2 por cada uno de los 7 tallos) */
+        .leaf-1 { animation-delay: 1.0s; }
+        .leaf-2 { animation-delay: 1.1s; }
+        .leaf-3 { animation-delay: 1.2s; }
+        .leaf-4 { animation-delay: 1.3s; }
+        .leaf-5 { animation-delay: 1.4s; }
+        .leaf-6 { animation-delay: 1.5s; }
+        .leaf-7 { animation-delay: 1.6s; }
+        .leaf-8 { animation-delay: 1.7s; }
+        .leaf-9 { animation-delay: 1.8s; }
+        .leaf-10 { animation-delay: 1.9s; }
+        .leaf-11 { animation-delay: 2.0s; }
+        .leaf-12 { animation-delay: 2.1s; }
+        .leaf-13 { animation-delay: 2.2s; }
+        .leaf-14 { animation-delay: 2.3s; }
+
+        @keyframes growLeaf {
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .bouquet-svg {
+                width: 450px;       /* Escalado proporcionalmente para móviles */
+                height: 1230px;     /* Proporcionalmente ajustado: 1800*0.68=1230 */
+            }
+        }
+
+        /* Exportación estática */
+        .static-export .stem,
+        .static-export .flower,
+        .static-export .leaf {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: scale(1) !important;
+            stroke-dashoffset: 0 !important;
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #45a049;
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(45deg, #ff5252, #ff6b6b);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="bouquet-container">
+        <svg class="bouquet-svg" id="bouquetSVG" viewBox="0 0 660 1800" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Gradientes -->
+                <linearGradient id="stemGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:var(--stem-color)"/>
+                    <stop offset="100%" style="stop-color:var(--stem-gradient-end)"/>
+                </linearGradient>
+                
+                <radialGradient id="petalGradient1" cx="50%" cy="30%">
+                    <stop offset="0%" style="stop-color:var(--petal-color-1)"/>
+                    <stop offset="100%" style="stop-color:var(--petal-color-2)"/>
+                </radialGradient>
+                
+                <radialGradient id="flowerCenter" cx="50%" cy="50%">
+                    <stop offset="0%" style="stop-color:#D2691E"/>
+                    <stop offset="100%" style="stop-color:var(--flower-center)"/>
+                </radialGradient>
+            </defs>
+            
+            <!-- Tallos -->
+            <g id="stemsGroup"></g>
+            
+            <!-- Hojas -->
+            <g id="leavesGroup"></g>
+            
+            <!-- Flores -->
+            <g id="flowersGroup"></g>
+        </svg>
+    </div>
+
+    <div class="controls">
+        <button class="btn back-btn" onclick="goBackToIndex()">← Volver al Inicio</button>
+        <button class="btn" onclick="regenerateBouquet()">Reiniciar Animación</button>
+        <button class="btn" onclick="toggleDebugMode()">Debug: Ver Puntas</button>
+        <button class="btn" onclick="exportBouquetAsPNG(1920, 1080)">Descargar PNG HD</button>
+        <button class="btn" onclick="exportBouquetAsPNG(1080, 1920)">Wallpaper Móvil</button>
+    </div>
+
+    <script>
+        // Configuración del ramo - 50% MÁS GRANDE con disposición según imagen
+        const config = {
+            numStems: 7,
+            basePoint: { x: 330, y: 1575 },     // Base ajustada para tallos balanceados
+            petalsPerFlower: 10,
+            // Disposición con tallos largos pero mejor proporcionados
+            stemPositions: [
+                // 2 FLORES ALTAS (longitud ajustada para mejor visualización)
+                { angle: -18, length: 1100, id: 1, curve: 0.3 },   // Izquierda alta
+                { angle: 18, length: 1100, id: 2, curve: 0.3 },    // Derecha alta
+                
+                // 3 FLORES MEDIAS (longitudes balanceadas)
+                { angle: -30, length: 950, id: 3, curve: 0.4 },    // Izquierda media
+                { angle: 0, length: 1000, id: 4, curve: 0.2 },     // Centro media (más alta)
+                { angle: 30, length: 950, id: 5, curve: 0.4 },     // Derecha media
+                
+                // 2 FLORES BAJAS (longitud proporcionada)
+                { angle: -12, length: 750, id: 6, curve: 0.3 },    // Izquierda baja
+                { angle: 12, length: 750, id: 7, curve: 0.3 }      // Derecha baja
+            ]
+        };
+
+        // Generar ramo al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            generateRadialBouquet();
+        });
+
+        function generateRadialBouquet() {
+            const stemsGroup = document.getElementById('stemsGroup');
+            const flowersGroup = document.getElementById('flowersGroup');
+            const leavesGroup = document.getElementById('leavesGroup');
+            
+            // Limpiar grupos (sin lazo)
+            [stemsGroup, flowersGroup, leavesGroup].forEach(g => g.innerHTML = '');
+            
+            const stemData = [];
+            
+            // Generar tallos con FORMAS MEJORADAS y curvas naturales
+            config.stemPositions.forEach(pos => {
+                const stem = createStem(pos.id, pos.angle, pos.length, pos.curve);
+                stemsGroup.appendChild(stem.element);
+                stemData.push(stem);
+            });
+            
+            // Crear flores EXACTAMENTE en las puntas de los tallos
+            stemData.forEach((stem, index) => {
+                const flower = createFlower(index + 1, stem.endPoint);
+                flowersGroup.appendChild(flower);
+                
+                // Mostrar puntos de debug si está activado
+                if (debugMode) {
+                    createDebugPoint(flowersGroup, stem.endPoint, index + 1);
+                    console.log(`Flor ${index + 1}: posicionada en (${stem.endPoint.x.toFixed(1)}, ${stem.endPoint.y.toFixed(1)})`);
+                }
+            });
+            
+            // Crear hojas: 2 por tallo (arriba y abajo)
+            createLeaves(leavesGroup, stemData);
+        }
+
+        function createStem(index, angle, length, curveFactor) {
+            const angleRad = (angle * Math.PI) / 180;
+            const base = config.basePoint;
+            
+            // FÓRMULA CORREGIDA: Cálculo directo para que el tallo llegue EXACTAMENTE a la flor
+            // Sin factores de reducción que causen que las flores floten
+            const finalX = base.x + Math.sin(angleRad) * length;
+            const finalY = base.y - Math.cos(Math.abs(angleRad)) * length;
+            
+            // Múltiples puntos de control para curvas orgánicas
+            const control1X = base.x + Math.sin(angleRad) * (length * 0.3);
+            const control1Y = base.y - (length * 0.4);
+            
+            const control2X = base.x + Math.sin(angleRad) * (length * 0.7) + (Math.cos(angleRad) * 30 * curveFactor);
+            const control2Y = base.y - (length * 0.7);
+            
+            // Debug logging para verificar posicionamiento
+            if (debugMode) {
+                console.log(`Tallo ${index}: ángulo=${angle}°, longitud=${length}, curva=${curveFactor}, final=(${finalX.toFixed(1)}, ${finalY.toFixed(1)})`);
+            }
+            
+            // Crear path que va DIRECTAMENTE al punto final calculado
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const d = `M ${base.x} ${base.y} Q ${control1X} ${control1Y} ${control2X} ${control2Y} T ${finalX} ${finalY}`;
+            
+            path.setAttribute('d', d);
+            path.setAttribute('stroke', 'url(#stemGradient)');
+                        // Grosores aumentados 25%: 20*1.25=25, 16*1.25=20, 14*1.25=17.5
+            const thickness = index <= 3 ? 25 : (index <= 5 ? 20 : 17.5);
+            path.setAttribute('stroke-width', thickness);
+            path.setAttribute('stroke-linecap', 'round');
+            path.setAttribute('fill', 'none');
+            path.classList.add('stem', `stem-${index}`);
+            
+            return {
+                element: path,
+                endPoint: { x: finalX, y: finalY } // EXACTAMENTE donde debe ir la flor
+            };
+        }
+
+        function createFlower(index, position) {
+            // Contenedor principal - SOLO para posicionamiento
+            const positionGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            positionGroup.setAttribute('transform', `translate(${position.x}, ${position.y})`);
+            
+            // Grupo interno - SOLO para animaciones
+            const animationGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            animationGroup.classList.add('flower', `flower-${index}`);
+            
+            // Crear pétalos originales (elípticos)
+            for (let i = 0; i < config.petalsPerFlower; i++) {
+                const petal = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+                const rotation = (360 / config.petalsPerFlower) * i;
+                
+                // Pétalos 50% más grandes: 37.5*1.5=56.25, 82.5*1.5=123.75
+                petal.setAttribute('rx', 56.25);
+                petal.setAttribute('ry', 123.75);
+                petal.setAttribute('cx', 0);
+                petal.setAttribute('cy', -67.5);     // -45*1.5=-67.5
+                petal.setAttribute('fill', 'url(#petalGradient1)');
+                petal.setAttribute('transform', `rotate(${rotation})`);
+                
+                animationGroup.appendChild(petal);
+            }
+            
+            // Centro de la flor 50% más grande: 30*1.5=45
+            const center = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            center.setAttribute('cx', 0);
+            center.setAttribute('cy', 0);
+            center.setAttribute('r', 45);
+            center.setAttribute('fill', 'url(#flowerCenter)');
+            
+            animationGroup.appendChild(center);
+            positionGroup.appendChild(animationGroup);
+            
+            return positionGroup;
+        }
+
+        function createLeaves(container, stemData) {
+            // SISTEMA PRECISO: Exactamente 2 hojas por tallo (una arriba, una abajo)
+            // Basado en la configuración real de los 7 tallos del ramo
+            
+            stemData.forEach((stem, stemIndex) => {
+                const stemPos = config.stemPositions[stemIndex];
+                const angleRad = (stemPos.angle * Math.PI) / 180;
+                const base = config.basePoint;
+                
+                // Calcular 2 posiciones por tallo: abajo (25% del tallo) y arriba (75% del tallo)
+                const positions = [
+                    { factor: 0.25, type: 'bottom' },  // Hoja de abajo (más cerca de la base)
+                    { factor: 0.75, type: 'top' }      // Hoja de arriba (más cerca de la flor)
+                ];
+                
+                positions.forEach((pos, leafIndex) => {
+                    // Calcular posición exacta a lo largo del tallo
+                    const distance = stemPos.length * pos.factor;
+                    const leafX = base.x + Math.sin(angleRad) * distance;
+                    const leafY = base.y - Math.cos(Math.abs(angleRad)) * distance;
+                    
+                    // Crear la hoja
+                    const leaf = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+                    leaf.setAttribute('cx', leafX);
+                    leaf.setAttribute('cy', leafY);
+                    
+                    // Tamaño variable según posición: hojas de abajo más grandes
+                    const isBottomLeaf = pos.type === 'bottom';
+                    const rx = isBottomLeaf ? 14 : 10;  // Hojas de abajo más anchas
+                    const ry = isBottomLeaf ? 32 : 24;  // Hojas de abajo más largas
+                    
+                    leaf.setAttribute('rx', rx);
+                    leaf.setAttribute('ry', ry);
+                    
+                    // Color según posición: hojas de abajo más oscuras
+                    const fillColor = isBottomLeaf ? '#2e7d32' : '#4caf50';
+                    const strokeColor = isBottomLeaf ? '#1b5e20' : '#388e3c';
+                    
+                    leaf.setAttribute('fill', fillColor);
+                    leaf.setAttribute('stroke', strokeColor);
+                    leaf.setAttribute('stroke-width', '1');
+                    
+                    // Rotación natural: seguir el ángulo del tallo con variación
+                    const baseRotation = stemPos.angle;
+                    const variation = isBottomLeaf ? -20 : 15; // Hojas de abajo hacia abajo, de arriba hacia arriba
+                    const rotation = baseRotation + variation;
+                    
+                    leaf.setAttribute('transform', `rotate(${rotation} ${leafX} ${leafY})`);
+                    
+                    // Clases para animación - numeración secuencial
+                    const leafNumber = (stemIndex * 2) + leafIndex + 1;
+                    leaf.classList.add('leaf', `leaf-${leafNumber}`);
+                    
+                    // Efectos visuales
+                    leaf.setAttribute('filter', 'drop-shadow(1px 1px 2px rgba(0,0,0,0.2))');
+                    
+                    container.appendChild(leaf);
+                });
+            });
+        }
+
+        // Función createRibbon eliminada - el usuario proporcionará su propio moño
+
+        function regenerateBouquet() {
+            // Resetear animaciones
+            document.querySelectorAll('.stem, .flower, .leaf').forEach(el => {
+                el.style.animation = 'none';
+                el.offsetHeight; // Trigger reflow
+                el.style.animation = null;
+            });
+            
+            generateRadialBouquet();
+        }
+
+        let debugMode = false;
+        function toggleDebugMode() {
+            debugMode = !debugMode;
+            generateRadialBouquet(); // Regenerar con/sin debug
+            const btn = event.target;
+            btn.textContent = debugMode ? 'Debug: ON' : 'Debug: Ver Puntas';
+            btn.style.background = debugMode ? '#ff5722' : '#4caf50';
+            
+            if (debugMode) {
+                console.log('🔍 MODO DEBUG ACTIVADO - Flores 150% más grandes y tallos 40% más juntos:');
+                console.log('🌻 Flores ENORMES: Pétalos 37.5x82.5px, Centro r=30px');
+                console.log('📏 Tallos más juntos: ángulos reducidos 40% para menor dispersión');
+                console.log('� Grosores: 20px, 16px, 14px (proporcionales a flores grandes)');
+                console.log('📐 ViewBox: 660x1200, Base: (330,975)');
+            }
+        }
+
+        async function exportBouquetAsPNG(width, height) {
+            const svg = document.getElementById('bouquetSVG');
+            
+            // Aplicar clase estática
+            document.documentElement.classList.add('static-export');
+            
+            // Esperar un frame para aplicar estilos
+            await new Promise(resolve => requestAnimationFrame(resolve));
+            
+            // Clonar SVG
+            const svgClone = svg.cloneNode(true);
+            svgClone.setAttribute('width', width);
+            svgClone.setAttribute('height', height);
+            
+            // Serializar SVG
+            const serializer = new XMLSerializer();
+            const svgString = serializer.serializeToString(svgClone);
+            const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString)));
+            
+            // Crear canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            
+            // Fondo blanco
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Cargar y dibujar SVG
+            const img = new Image();
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                // Descargar
+                const link = document.createElement('a');
+                link.download = `ramo-flores-${width}x${height}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                // Remover clase estática
+                document.documentElement.classList.remove('static-export');
+            };
+            img.src = svgDataUrl;
+        }
+
+        // Función para regresar al index
+        function goBackToIndex() {
+            // Efecto de transición suave
+            document.body.style.transition = 'opacity 0.5s ease-out';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        }
+
+        // Función de debug para visualizar puntos finales
+        function createDebugPoint(container, point, index) {
+            const debug = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            debug.setAttribute('cx', point.x);
+            debug.setAttribute('cy', point.y);
+            debug.setAttribute('r', 4);
+            debug.setAttribute('fill', 'red');
+            debug.setAttribute('stroke', 'darkred');
+            debug.setAttribute('stroke-width', 2);
+            debug.setAttribute('opacity', '0.9');
+            container.appendChild(debug);
+            
+            // Agregar número para identificar cada punto
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', point.x + 8);
+            text.setAttribute('y', point.y + 4);
+            text.setAttribute('fill', 'darkred');
+            text.setAttribute('font-size', '12');
+            text.setAttribute('font-weight', 'bold');
+            text.textContent = index;
+            container.appendChild(text);
+        }
+    </script>
+</body>
+</html>

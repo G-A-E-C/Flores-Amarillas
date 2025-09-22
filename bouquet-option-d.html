@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramo Denso - Opción D</title>
+    <style>
+        :root {
+            --stem-color: #2e7d32;
+            --leaf-color: #4caf50;
+            --petal-color: #ffd700;
+            --flower-center: #8B4513;
+        }
+
+        .bouquet-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e8f5e8, #f1f8e9);
+            padding: 20px;
+        }
+
+        .bouquet-svg {
+            width: 400px;
+            height: 600px;
+            max-width: 90vw;
+            max-height: 80vh;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+        }
+
+        /* Capas de profundidad */
+        .layer-back { opacity: 0.7; }
+        .layer-middle { opacity: 0.85; }
+        .layer-front { opacity: 1; }
+
+        /* Animaciones escalonadas */
+        .dense-stem {
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+            animation: growDenseStem 1s ease-out forwards;
+        }
+
+        .dense-stem-1 { animation-delay: 0.1s; }
+        .dense-stem-2 { animation-delay: 0.2s; }
+        .dense-stem-3 { animation-delay: 0.3s; }
+        .dense-stem-4 { animation-delay: 0.4s; }
+        .dense-stem-5 { animation-delay: 0.5s; }
+        .dense-stem-6 { animation-delay: 0.6s; }
+        .dense-stem-7 { animation-delay: 0.7s; }
+        .dense-stem-8 { animation-delay: 0.8s; }
+        .dense-stem-9 { animation-delay: 0.9s; }
+        .dense-stem-10 { animation-delay: 1.0s; }
+
+        @keyframes growDenseStem {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Hojas densas */
+        .dense-leaf {
+            opacity: 0;
+            transform: scale(0) rotate(0deg);
+            animation: growDenseLeaf 0.8s ease-out forwards;
+        }
+
+        .dense-leaf-1 { animation-delay: 1.2s; }
+        .dense-leaf-2 { animation-delay: 1.3s; }
+        .dense-leaf-3 { animation-delay: 1.4s; }
+        .dense-leaf-4 { animation-delay: 1.5s; }
+        .dense-leaf-5 { animation-delay: 1.6s; }
+        .dense-leaf-6 { animation-delay: 1.7s; }
+
+        @keyframes growDenseLeaf {
+            0% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 0.6; transform: scale(0.7) rotate(-10deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        /* Flores densas */
+        .dense-flower {
+            opacity: 0;
+            transform: scale(0);
+            animation: bloomDenseFlower 0.7s ease-out forwards;
+        }
+
+        .dense-flower-1 { animation-delay: 1.8s; }
+        .dense-flower-2 { animation-delay: 1.9s; }
+        .dense-flower-3 { animation-delay: 2.0s; }
+        .dense-flower-4 { animation-delay: 2.1s; }
+        .dense-flower-5 { animation-delay: 2.2s; }
+        .dense-flower-6 { animation-delay: 2.3s; }
+        .dense-flower-7 { animation-delay: 2.4s; }
+        .dense-flower-8 { animation-delay: 2.5s; }
+        .dense-flower-9 { animation-delay: 2.6s; }
+        .dense-flower-10 { animation-delay: 2.7s; }
+
+        @keyframes bloomDenseFlower {
+            0% { opacity: 0; transform: scale(0); }
+            60% { opacity: 0.8; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="bouquet-container">
+        <svg class="bouquet-svg" id="bouquetSVG" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="denseStemGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#1b5e20"/>
+                    <stop offset="50%" style="stop-color:#2e7d32"/>
+                    <stop offset="100%" style="stop-color:#4caf50"/>
+                </linearGradient>
+                
+                <radialGradient id="denseFlowerGradient" cx="40%" cy="30%">
+                    <stop offset="0%" style="stop-color:#fff200"/>
+                    <stop offset="30%" style="stop-color:#ffed4e"/>
+                    <stop offset="70%" style="stop-color:#ffd700"/>
+                    <stop offset="100%" style="stop-color:#ff8f00"/>
+                </radialGradient>
+                
+                <linearGradient id="leafGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#66bb6a"/>
+                    <stop offset="100%" style="stop-color:#2e7d32"/>
+                </linearGradient>
+                
+                <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+                    <feOffset dx="2" dy="4" result="offset"/>
+                    <feFlood flood-color="#000000" flood-opacity="0.2"/>
+                    <feComposite in2="offset" operator="in"/>
+                    <feMerge>
+                        <feMergeNode/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+            </defs>
+            
+            <!-- Capa trasera de tallos -->
+            <g class="layer-back">
+                <path class="dense-stem dense-stem-1" d="M 200 550 Q 190 400 170 200 Q 165 150 160 120" stroke="url(#denseStemGradient)" stroke-width="5" stroke-linecap="round" fill="none"/>
+                <path class="dense-stem dense-stem-2" d="M 200 550 Q 210 420 230 220 Q 235 170 240 140" stroke="url(#denseStemGradient)" stroke-width="5" stroke-linecap="round" fill="none"/>
+                <path class="dense-stem dense-stem-3" d="M 200 550 Q 185 380 150 180 Q 145 130 140 100" stroke="url(#denseStemGradient)" stroke-width="4" stroke-linecap="round" fill="none"/>
+            </g>
+            
+            <!-- Capa media de tallos -->
+            <g class="layer-middle">
+                <path class="dense-stem dense-stem-4" d="M 200 550 Q 195 420 180 240 Q 175 190 170 160" stroke="url(#denseStemGradient)" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <path class="dense-stem dense-stem-5" d="M 200 550 Q 205 410 220 230 Q 225 180 230 150" stroke="url(#denseStemGradient)" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <path class="dense-stem dense-stem-6" d="M 200 550 Q 188 440 165 260 Q 160 210 155 180" stroke="url(#denseStemGradient)" stroke-width="5" stroke-linecap="round" fill="none"/>
+                <path class="dense-stem dense-stem-7" d="M 200 550 Q 212 435 235 255 Q 240 205 245 175" stroke="url(#denseStemGradient)" stroke-width="5" stroke-linecap="round" fill="none"/>
+            </g>
+            
+            <!-- Capa frontal de tallos principales -->
+            <g class="layer-front">
+                <path class="dense-stem dense-stem-8" d="M 200 550 Q 198 450 195 300 Q 190 200 185 150" stroke="url(#denseStemGradient)" stroke-width="7" stroke-linecap="round" fill="none"/>
+                <path class="dense-stem dense-stem-9" d="M 200 550 Q 202 445 205 295 Q 210 195 215 145" stroke="url(#denseStemGradient)" stroke-width="7" stroke-linecap="round" fill="none"/>
+                <path class="dense-stem dense-stem-10" d="M 200 550 Q 200 460 200 320 Q 200 220 200 120" stroke="url(#denseStemGradient)" stroke-width="8" stroke-linecap="round" fill="none"/>
+            </g>
+            
+            <!-- Hojas densas en la base -->
+            <ellipse class="dense-leaf dense-leaf-1" cx="180" cy="480" rx="12" ry="25" fill="url(#leafGradient)" transform="rotate(-20 180 480)" filter="url(#softShadow)"/>
+            <ellipse class="dense-leaf dense-leaf-2" cx="220" cy="485" rx="10" ry="22" fill="url(#leafGradient)" transform="rotate(25 220 485)" filter="url(#softShadow)"/>
+            <ellipse class="dense-leaf dense-leaf-3" cx="165" cy="500" rx="14" ry="28" fill="url(#leafGradient)" transform="rotate(-30 165 500)" filter="url(#softShadow)"/>
+            <ellipse class="dense-leaf dense-leaf-4" cx="235" cy="505" rx="13" ry="26" fill="url(#leafGradient)" transform="rotate(35 235 505)" filter="url(#softShadow)"/>
+            <ellipse class="dense-leaf dense-leaf-5" cx="200" cy="520" rx="15" ry="30" fill="url(#leafGradient)" transform="rotate(0 200 520)" filter="url(#softShadow)"/>
+            <ellipse class="dense-leaf dense-leaf-6" cx="190" cy="510" rx="11" ry="24" fill="url(#leafGradient)" transform="rotate(-10 190 510)" filter="url(#softShadow)"/>
+            
+            <!-- Flores densas en múltiples alturas -->
+            <!-- Capa trasera -->
+            <g class="dense-flower dense-flower-1 layer-back" transform="translate(160, 120)">
+                <circle r="10" fill="url(#denseFlowerGradient)" filter="url(#softShadow)"/>
+                <circle r="3" fill="#8B4513"/>
+            </g>
+            <g class="dense-flower dense-flower-2 layer-back" transform="translate(240, 140)">
+                <circle r="9" fill="url(#denseFlowerGradient)" filter="url(#softShadow)"/>
+                <circle r="3" fill="#8B4513"/>
+            </g>
+            <g class="dense-flower dense-flower-3 layer-back" transform="translate(140, 100)">
+                <circle r="8" fill="url(#denseFlowerGradient)" filter="url(#softShadow)"/>
+                <circle r="2" fill="#8B4513"/>
+            </g>
+            
+            <!-- Capa media -->
+            <g class="dense-flower dense-flower-4 layer-middle" transform="translate(170, 160)">
+                <circle r="12" fill="url(#denseFlowerGradient)" filter="url(#softShadow)"/>
+                <circle r="4" fill="#8B4513"/>
+            </g>
+            <g class="dense-flower dense-flower-5 layer-middle" transform="translate(230, 150)">
+                <circle r="11" fill="url(#denseFlowerGradient)" filter="url(#softShadow)"/>
+                <circle r="4" fill="#8B4513"/>
+            </g>
+            <g class="dense-flower dense-flower-6 layer-middle" transform="translate(155, 180)">
+                <circle r="10" fill="url(#denseFlowerGradient)" filter="url(#softShadow)"/>
+                <circle r="3" fill="#8B4513"/>
+            </g>
+            <g class="dense-flower dense-flower-7 layer-middle" transform="translate(245, 175)">
+                <circle r="10" fill="url(#denseFlowerGradient)" filter="url(#softShadow)"/>
+                <circle r="3" fill="#8B4513"/>
+            </g>
+            
+            <!-- Capa frontal -->
+            <g class="dense-flower dense-flower-8 layer-front" transform="translate(185, 150)">
+                <circle r="14" fill="url(#denseFlowerGradient)" filter="url(#softShadow)"/>
+                <circle r="5" fill="#8B4513"/>
+            </g>
+            <g class="dense-flower dense-flower-9 layer-front" transform="translate(215, 145)">
+                <circle r="13" fill="url(#denseFlowerGradient)" filter="url(#softShadow)"/>
+                <circle r="5" fill="#8B4513"/>
+            </g>
+            <g class="dense-flower dense-flower-10 layer-front" transform="translate(200, 120)">
+                <circle r="16" fill="url(#denseFlowerGradient)" filter="url(#softShadow)"/>
+                <circle r="6" fill="#8B4513"/>
+            </g>
+        </svg>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="exportBouquetAsPNG(1920, 1080)">Descargar PNG</button>
+    </div>
+
+    <script>
+        async function exportBouquetAsPNG(width, height) {
+            const svg = document.getElementById('bouquetSVG');
+            const svgClone = svg.cloneNode(true);
+            svgClone.setAttribute('width', width);
+            svgClone.setAttribute('height', height);
+            
+            // Forzar estado final
+            svgClone.querySelectorAll('.dense-stem, .dense-leaf, .dense-flower').forEach(el => {
+                el.style.animation = 'none';
+                el.style.opacity = el.classList.contains('layer-back') ? '0.7' : 
+                                   el.classList.contains('layer-middle') ? '0.85' : '1';
+                el.style.transform = 'scale(1)';
+                el.style.strokeDashoffset = '0';
+            });
+            
+            const serializer = new XMLSerializer();
+            const svgString = serializer.serializeToString(svgClone);
+            const svgDataUrl = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString)));
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, width, height);
+            
+            const img = new Image();
+            img.onload = () => {
+                ctx.drawImage(img, 0, 0, width, height);
+                const link = document.createElement('a');
+                link.download = `ramo-denso-${width}x${height}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            };
+            img.src = svgDataUrl;
+        }
+    </script>
+</body>
+</html>
