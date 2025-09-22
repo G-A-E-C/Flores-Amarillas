@@ -639,14 +639,33 @@ class FlowerAnimation {
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
+            // Asegurar que el moño esté visible
+            const bowContainerPNG = document.querySelector('.bow-container');
+            const bowImagePNG = document.querySelector('.bow-image');
+            
+            if (bowContainerPNG) {
+                bowContainerPNG.style.opacity = '1';
+                bowContainerPNG.style.visibility = 'visible';
+                bowContainerPNG.classList.add('show');
+                console.log('Moño configurado como visible para PNG');
+            } else {
+                console.log('No se encontró bow-container para PNG');
+            }
+            
+            if (bowImagePNG) {
+                bowImagePNG.style.opacity = '1';
+                bowImagePNG.style.visibility = 'visible';
+                console.log('Imagen del moño configurada como visible para PNG');
+            } else {
+                console.log('No se encontró bow-image para PNG');
+            }
+            
             // Convertir SVG del ramo a imagen
             const bouquetSvg = document.querySelector('.bouquet-svg');
             if (bouquetSvg) {
-                // Asegurar que todas las flores, tallos y moño están visibles
+                // Asegurar que todas las flores, tallos están visibles
                 const flowers = bouquetSvg.querySelectorAll('.flower');
                 const stems = bouquetSvg.querySelectorAll('.stem');
-                const bowContainer = bouquetSvg.querySelector('.bow-container');
-                const bowImage = bouquetSvg.querySelector('.bow-image');
                 
                 flowers.forEach(flower => {
                     flower.style.opacity = '1';
@@ -657,17 +676,6 @@ class FlowerAnimation {
                     stem.style.opacity = '1';
                     stem.style.visibility = 'visible';
                 });
-                
-                if (bowContainer) {
-                    bowContainer.style.opacity = '1';
-                    bowContainer.style.visibility = 'visible';
-                    bowContainer.classList.add('show');
-                }
-                
-                if (bowImage) {
-                    bowImage.style.opacity = '1';
-                    bowImage.style.visibility = 'visible';
-                }
                 
                 // Esperar a que se rendericen completamente
                 await new Promise(resolve => setTimeout(resolve, 500));
@@ -690,6 +698,29 @@ class FlowerAnimation {
                     img.onerror = reject;
                     img.src = svgData;
                 });
+            }
+            
+            // Agregar el moño encima del ramo
+            if (bowContainerPNG && bowImagePNG && bowContainerPNG.classList.contains('show')) {
+                const bowImg = new Image();
+                await new Promise((resolve, reject) => {
+                    bowImg.onload = () => {
+                        // Posicionar el moño en la parte superior del ramo
+                        const bowScale = 0.8;
+                        const bowWidth = 80 * bowScale;
+                        const bowHeight = 60 * bowScale;
+                        const bowX = (canvas.width - bowWidth) / 2;
+                        const bowY = canvas.height / 2 - 200; // Posición superior del ramo
+                        
+                        ctx.drawImage(bowImg, bowX, bowY, bowWidth, bowHeight);
+                        console.log('Moño dibujado en PNG');
+                        resolve();
+                    };
+                    bowImg.onerror = reject;
+                    bowImg.src = bowImagePNG.src;
+                });
+            } else {
+                console.log('Moño no se pudo capturar en PNG - container:', !!bowContainerPNG, 'image:', !!bowImagePNG, 'show:', bowContainerPNG?.classList.contains('show'));
             }
             
             // Añadir texto
@@ -734,14 +765,33 @@ class FlowerAnimation {
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
+            // Asegurar que el moño esté visible
+            const bowContainerWP = document.querySelector('.bow-container');
+            const bowImageWP = document.querySelector('.bow-image');
+            
+            if (bowContainerWP) {
+                bowContainerWP.style.opacity = '1';
+                bowContainerWP.style.visibility = 'visible';
+                bowContainerWP.classList.add('show');
+                console.log('Moño configurado como visible para Wallpaper');
+            } else {
+                console.log('No se encontró bow-container para Wallpaper');
+            }
+            
+            if (bowImageWP) {
+                bowImageWP.style.opacity = '1';
+                bowImageWP.style.visibility = 'visible';
+                console.log('Imagen del moño configurada como visible para Wallpaper');
+            } else {
+                console.log('No se encontró bow-image para Wallpaper');
+            }
+            
             // Convertir SVG del ramo a imagen
             const bouquetSvg = document.querySelector('.bouquet-svg');
             if (bouquetSvg) {
-                // Asegurar que todas las flores, tallos y moño están visibles
+                // Asegurar que todas las flores, tallos están visibles
                 const flowers = bouquetSvg.querySelectorAll('.flower');
                 const stems = bouquetSvg.querySelectorAll('.stem');
-                const bowContainer = bouquetSvg.querySelector('.bow-container');
-                const bowImage = bouquetSvg.querySelector('.bow-image');
                 
                 flowers.forEach(flower => {
                     flower.style.opacity = '1';
@@ -752,17 +802,6 @@ class FlowerAnimation {
                     stem.style.opacity = '1';
                     stem.style.visibility = 'visible';
                 });
-                
-                if (bowContainer) {
-                    bowContainer.style.opacity = '1';
-                    bowContainer.style.visibility = 'visible';
-                    bowContainer.classList.add('show');
-                }
-                
-                if (bowImage) {
-                    bowImage.style.opacity = '1';
-                    bowImage.style.visibility = 'visible';
-                }
                 
                 // Esperar a que se rendericen completamente
                 await new Promise(resolve => setTimeout(resolve, 500));
@@ -785,6 +824,29 @@ class FlowerAnimation {
                     img.onerror = reject;
                     img.src = svgData;
                 });
+            }
+            
+            // Agregar el moño encima del ramo
+            if (bowContainerWP && bowImageWP && bowContainerWP.classList.contains('show')) {
+                const bowImg = new Image();
+                await new Promise((resolve, reject) => {
+                    bowImg.onload = () => {
+                        // Posicionar el moño en la parte superior del ramo
+                        const bowScale = type === 'pc' ? 1.5 : 1.8;
+                        const bowWidth = 80 * bowScale;
+                        const bowHeight = 60 * bowScale;
+                        const bowX = (canvas.width - bowWidth) / 2;
+                        const bowY = canvas.height / 2 - (type === 'pc' ? 300 : 400); // Posición superior del ramo
+                        
+                        ctx.drawImage(bowImg, bowX, bowY, bowWidth, bowHeight);
+                        console.log('Moño dibujado en Wallpaper');
+                        resolve();
+                    };
+                    bowImg.onerror = reject;
+                    bowImg.src = bowImageWP.src;
+                });
+            } else {
+                console.log('Moño no se pudo capturar en Wallpaper - container:', !!bowContainerWP, 'image:', !!bowImageWP, 'show:', bowContainerWP?.classList.contains('show'));
             }
             
             // Añadir texto
@@ -817,10 +879,21 @@ class FlowerAnimation {
         // Verificar que tenemos todos los elementos esperados
         const flowers = svgElement.querySelectorAll('.flower');
         const stems = svgElement.querySelectorAll('.stem');
-        const bowContainer = svgElement.querySelector('.bow-container');
-        const bowImage = svgElement.querySelector('.bow-image');
+        const stemsGroup = svgElement.querySelector('#stemsGroup');
+        const flowersGroup = svgElement.querySelector('#flowersGroup');
+        const leavesGroup = svgElement.querySelector('#leavesGroup');
         
-        console.log(`Elementos encontrados en SVG: ${flowers.length} flores, ${stems.length} tallos, ${bowContainer ? 'bow-container presente' : 'sin bow-container'}, ${bowImage ? 'bow-image presente' : 'sin bow-image'}`);
+        console.log(`Elementos encontrados en SVG:`);
+        console.log(`- ${flowers.length} flores`);
+        console.log(`- ${stems.length} tallos`);
+        console.log(`- stemsGroup: ${stemsGroup ? 'presente' : 'ausente'}`);
+        console.log(`- flowersGroup: ${flowersGroup ? 'presente' : 'ausente'}`);
+        console.log(`- leavesGroup: ${leavesGroup ? 'presente' : 'ausente'}`);
+        
+        if (stemsGroup) {
+            const stemsInGroup = stemsGroup.querySelectorAll('path');
+            console.log(`- ${stemsInGroup.length} tallos en stemsGroup`);
+        }
         
         if (flowers.length === 0) {
             console.warn('No se encontraron flores en el SVG');
