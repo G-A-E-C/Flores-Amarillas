@@ -623,152 +623,63 @@ class FlowerAnimation {
         }
     }
 
-        // Descargar como PNG (solo ramo y mensaje final)
+    // Descargar imagen PNG pre-generada desde wallpaper
     async downloadPNG() {
         try {
-            // Crear canvas limpio
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 800;
-            canvas.height = 600;
+            console.log('Descargando PNG pre-generado desde wallpaper...');
             
-            // Fondo degradado
-            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            gradient.addColorStop(0, '#fff8e1');
-            gradient.addColorStop(1, '#ffecb3');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Imagen directa desde la carpeta wallpaper
+            const imageUrl = 'wallpaper/ramo-flores-amarillas-1758521274350.png';
             
-            // Convertir SVG del ramo a imagen
-            const bouquetSvg = document.querySelector('.bouquet-svg');
-            if (bouquetSvg) {
-                // Asegurar que todas las flores están visibles
-                const flowers = bouquetSvg.querySelectorAll('.flower');
-                flowers.forEach(flower => {
-                    flower.style.opacity = '1';
-                    flower.style.visibility = 'visible';
-                });
-                
-                // Esperar a que se rendericen completamente
-                await new Promise(resolve => setTimeout(resolve, 500));
-                
-                const svgData = await this.svgToBase64(bouquetSvg);
-                const img = new Image();
-                
-                await new Promise((resolve, reject) => {
-                    img.onload = () => {
-                        // Dibujar el ramo centrado y escalado (mucho más grande)
-                        const scale = 1.5; // Aumentado de 0.6 a 1.5
-                        const imgWidth = img.width * scale;
-                        const imgHeight = img.height * scale;
-                        const x = (canvas.width - imgWidth) / 2;
-                        const y = (canvas.height - imgHeight) / 2 - 30; // Ajustar posición
-                        
-                        ctx.drawImage(img, x, y, imgWidth, imgHeight);
-                        resolve();
-                    };
-                    img.onerror = reject;
-                    img.src = svgData;
-                });
-            }
-            
-            // Añadir texto
-            ctx.fillStyle = '#8d4925';
-            ctx.font = 'bold 32px Georgia, serif'; // Aumentar tamaño de fuente
-            ctx.textAlign = 'center';
-            ctx.shadowColor = 'rgba(0,0,0,0.3)';
-            ctx.shadowBlur = 3;
-            ctx.fillText('Te quiere tu amor eterno 💛', canvas.width / 2, canvas.height - 40); // Ajustar posición
-            
-            // Descargar
+            // Crear enlace de descarga directo
             const link = document.createElement('a');
-            link.download = `ramo-flores-amarillas-${new Date().getTime()}.png`;
-            link.href = canvas.toDataURL('image/png', 0.9);
+            link.href = imageUrl;
+            link.download = 'ramo-flores-amarillas.png';
+            
+            // Agregar al DOM temporalmente y hacer clic
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            
+            console.log('Descarga de PNG iniciada exitosamente');
             
         } catch (error) {
             console.error('Error al descargar PNG:', error);
-            alert(`Error al generar la imagen: ${error.message}\n\nIntenta usar la captura de pantalla de tu navegador como alternativa.`);
+            alert('Error al descargar la imagen. Por favor, intenta de nuevo.');
         }
     }
 
-            // Descargar wallpaper (ramo real)
+    // Descargar wallpaper pre-generado desde wallpaper
     async downloadWallpaper(type) {
         try {
-            // Configurar dimensiones
-            const dimensions = type === 'pc' ? { width: 1920, height: 1080 } : { width: 1080, height: 1920 };
+            console.log(`Descargando wallpaper ${type} desde wallpaper...`);
             
-            // Crear canvas limpio
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = dimensions.width;
-            canvas.height = dimensions.height;
-            
-            // Fondo degradado
-            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            gradient.addColorStop(0, '#fff8e1');
-            gradient.addColorStop(0.5, '#ffecb3');
-            gradient.addColorStop(1, '#ffe082');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Convertir SVG del ramo a imagen
-            const bouquetSvg = document.querySelector('.bouquet-svg');
-            if (bouquetSvg) {
-                // Asegurar que todas las flores están visibles
-                const flowers = bouquetSvg.querySelectorAll('.flower');
-                flowers.forEach(flower => {
-                    flower.style.opacity = '1';
-                    flower.style.visibility = 'visible';
-                });
-                
-                // Esperar a que se rendericen completamente
-                await new Promise(resolve => setTimeout(resolve, 500));
-                
-                const svgData = await this.svgToBase64(bouquetSvg);
-                const img = new Image();
-                
-                await new Promise((resolve, reject) => {
-                    img.onload = () => {
-                        // Dibujar el ramo centrado y escalado (mucho más grande)
-                        const scale = type === 'pc' ? 2.0 : 2.5; // Aumentado significativamente
-                        const imgWidth = img.width * scale;
-                        const imgHeight = img.height * scale;
-                        const x = (canvas.width - imgWidth) / 2;
-                        const y = (canvas.height - imgHeight) / 2 - 20; // Ajustar posición
-                        
-                        ctx.drawImage(img, x, y, imgWidth, imgHeight);
-                        resolve();
-                    };
-                    img.onerror = reject;
-                    img.src = svgData;
-                });
+            // Determinar el archivo según el tipo usando los nombres exactos
+            let fileName, imageUrl;
+            if (type === 'pc') {
+                fileName = 'wallpaper-flores-pc.png';
+                imageUrl = 'wallpaper/wallpaper-flores-pc-1758521286312.png';
+            } else {
+                fileName = 'wallpaper-flores-mobile.png';
+                imageUrl = 'wallpaper/wallpaper-flores-mobile-1758521297265.png';
             }
             
-            // Añadir texto
-            const fontSize = type === 'pc' ? 72 : 56; // Aumentar tamaño de fuente
-            ctx.fillStyle = '#8d4925';
-            ctx.font = `bold ${fontSize}px Georgia, serif`;
-            ctx.textAlign = 'center';
-            ctx.shadowColor = 'rgba(0,0,0,0.3)';
-            ctx.shadowBlur = 10;
-            
-            const textY = type === 'pc' ? canvas.height - 80 : canvas.height - 120; // Ajustar posición
-            ctx.fillText('Te quiere tu amor eterno 💛', canvas.width / 2, textY);
-            
-            // Descargar
+            // Crear enlace de descarga directo
             const link = document.createElement('a');
-            link.download = `wallpaper-flores-${type}-${new Date().getTime()}.png`;
-            link.href = canvas.toDataURL('image/png', 0.9);
+            link.href = imageUrl;
+            link.download = fileName;
+            
+            // Agregar al DOM temporalmente y hacer clic
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             
+            const dimensions = type === 'pc' ? '1920x1080' : '1080x1920';
+            console.log(`Descarga de wallpaper ${type} (${dimensions}) iniciada exitosamente`);
+            
         } catch (error) {
-            console.error('Error al crear wallpaper:', error);
-            alert(`Error al generar el fondo de pantalla: ${error.message}\n\nIntenta usar la captura de pantalla como alternativa.`);
+            console.error('Error al descargar wallpaper:', error);
+            alert('Error al descargar el wallpaper. Por favor, intenta de nuevo.');
         }
     }
 

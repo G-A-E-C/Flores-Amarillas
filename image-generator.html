@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Imágenes</title>
+</head>
+<body>
+    <h1>Generador de Imágenes para Descargas</h1>
+    <button onclick="generateImages()">Generar Imágenes</button>
+    <div id="results"></div>
+
+    <script>
+        function generateImages() {
+            // Generar PNG principal (800x600)
+            generatePNG();
+            
+            // Generar wallpaper PC (1920x1080)
+            generateWallpaper('pc', 1920, 1080);
+            
+            // Generar wallpaper mobile (1080x1920)
+            generateWallpaper('mobile', 1080, 1920);
+        }
+
+        function generatePNG() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 800;
+            canvas.height = 600;
+            
+            // Fondo degradado
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#fff8e1');
+            gradient.addColorStop(1, '#ffecb3');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Dibujar ramo simplificado
+            drawSimpleBouquet(ctx, canvas.width / 2, canvas.height / 2 - 50, 1.0);
+            
+            // Añadir texto
+            ctx.fillStyle = '#8d4925';
+            ctx.font = 'bold 32px Georgia, serif';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 3;
+            ctx.fillText('Te quiere tu amor eterno 💛', canvas.width / 2, canvas.height - 40);
+            
+            // Crear enlace de descarga
+            downloadCanvasAsImage(canvas, 'ramo-flores-amarillas.png');
+        }
+
+        function generateWallpaper(type, width, height) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = width;
+            canvas.height = height;
+            
+            // Fondo degradado
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#fff8e1');
+            gradient.addColorStop(0.5, '#ffecb3');
+            gradient.addColorStop(1, '#ffe082');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Dibujar ramo escalado
+            const scale = type === 'pc' ? 2.0 : 2.5;
+            drawSimpleBouquet(ctx, canvas.width / 2, canvas.height / 2, scale);
+            
+            // Añadir texto
+            const fontSize = type === 'pc' ? 72 : 56;
+            ctx.fillStyle = '#8d4925';
+            ctx.font = `bold ${fontSize}px Georgia, serif`;
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 10;
+            
+            const textY = type === 'pc' ? canvas.height - 80 : canvas.height - 120;
+            ctx.fillText('Te quiere tu amor eterno 💛', canvas.width / 2, textY);
+            
+            // Crear enlace de descarga
+            downloadCanvasAsImage(canvas, `wallpaper-flores-${type}.png`);
+        }
+
+        function drawSimpleBouquet(ctx, centerX, centerY, scale) {
+            // Dibujar tallos
+            ctx.strokeStyle = '#4caf50';
+            ctx.lineWidth = 8 * scale;
+            ctx.lineCap = 'round';
+            
+            for (let i = 0; i < 7; i++) {
+                const angle = (i - 3) * 15 * Math.PI / 180;
+                const length = 120 * scale;
+                const startX = centerX + Math.sin(angle) * 20 * scale;
+                const startY = centerY + 60 * scale;
+                const endX = centerX + Math.sin(angle) * 40 * scale;
+                const endY = centerY - length + 60 * scale;
+                
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+            }
+            
+            // Dibujar flores
+            for (let i = 0; i < 7; i++) {
+                const angle = (i - 3) * 15 * Math.PI / 180;
+                const flowerX = centerX + Math.sin(angle) * 40 * scale;
+                const flowerY = centerY - 120 * scale + 60 * scale;
+                
+                drawFlower(ctx, flowerX, flowerY, 25 * scale);
+            }
+            
+            // Dibujar moño
+            drawBow(ctx, centerX, centerY - 140 * scale, 30 * scale);
+        }
+
+        function drawFlower(ctx, x, y, radius) {
+            // Pétalos amarillos
+            ctx.fillStyle = '#ffd700';
+            for (let i = 0; i < 8; i++) {
+                const angle = (i * 45) * Math.PI / 180;
+                const petalX = x + Math.cos(angle) * radius * 0.7;
+                const petalY = y + Math.sin(angle) * radius * 0.7;
+                
+                ctx.beginPath();
+                ctx.ellipse(petalX, petalY, radius * 0.4, radius * 0.2, angle, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            
+            // Centro marrón
+            ctx.fillStyle = '#8b4513';
+            ctx.beginPath();
+            ctx.arc(x, y, radius * 0.3, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        function drawBow(ctx, x, y, size) {
+            // Moño rojo
+            ctx.fillStyle = '#dc143c';
+            
+            // Lazo izquierdo
+            ctx.beginPath();
+            ctx.ellipse(x - size * 0.3, y, size * 0.4, size * 0.6, 0, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Lazo derecho
+            ctx.beginPath();
+            ctx.ellipse(x + size * 0.3, y, size * 0.4, size * 0.6, 0, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Centro del moño
+            ctx.fillStyle = '#b22222';
+            ctx.beginPath();
+            ctx.ellipse(x, y, size * 0.2, size * 0.4, 0, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        function downloadCanvasAsImage(canvas, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            document.getElementById('results').innerHTML += `<p>✅ ${filename} generado</p>`;
+        }
+    </script>
+</body>
+</html>

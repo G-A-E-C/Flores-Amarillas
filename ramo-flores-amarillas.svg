@@ -1,0 +1,126 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fff8e1"/>
+      <stop offset="100%" style="stop-color:#ffecb3"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="800" height="600" fill="url(#bg)"/>
+  
+  <!-- Tallos -->
+  <g stroke="#4caf50" stroke-width="8" stroke-linecap="round" fill="none">
+    <line x1="360" y1="380" x2="340" y2="200"/>
+    <line x1="380" y1="380" x2="370" y2="190"/>
+    <line x1="400" y1="380" x2="400" y2="200"/>
+    <line x1="420" y1="380" x2="430" y2="190"/>
+    <line x1="440" y1="380" x2="460" y2="200"/>
+    <line x1="370" y1="380" x2="360" y2="220"/>
+    <line x1="430" y1="380" x2="440" y2="220"/>
+  </g>
+  
+  <!-- Flores -->
+  <g>
+    <!-- Flor 1 -->
+    <g transform="translate(340,200)">
+      <circle cx="0" cy="-15" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="-8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="15" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="0" r="8" fill="#8b4513"/>
+    </g>
+    
+    <!-- Flor 2 -->
+    <g transform="translate(370,190)">
+      <circle cx="0" cy="-15" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="-8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="15" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="0" r="8" fill="#8b4513"/>
+    </g>
+    
+    <!-- Flor 3 -->
+    <g transform="translate(400,200)">
+      <circle cx="0" cy="-15" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="-8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="15" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="0" r="8" fill="#8b4513"/>
+    </g>
+    
+    <!-- Flor 4 -->
+    <g transform="translate(430,190)">
+      <circle cx="0" cy="-15" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="-8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="15" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="0" r="8" fill="#8b4513"/>
+    </g>
+    
+    <!-- Flor 5 -->
+    <g transform="translate(460,200)">
+      <circle cx="0" cy="-15" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="-8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="15" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="0" r="8" fill="#8b4513"/>
+    </g>
+    
+    <!-- Flor 6 -->
+    <g transform="translate(360,220)">
+      <circle cx="0" cy="-15" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="-8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="15" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="0" r="8" fill="#8b4513"/>
+    </g>
+    
+    <!-- Flor 7 -->
+    <g transform="translate(440,220)">
+      <circle cx="0" cy="-15" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="-8" r="12" fill="#ffd700"/>
+      <circle cx="-12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="12" cy="8" r="12" fill="#ffd700"/>
+      <circle cx="-8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="8" cy="12" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="15" r="12" fill="#ffd700"/>
+      <circle cx="0" cy="0" r="8" fill="#8b4513"/>
+    </g>
+  </g>
+  
+  <!-- Moño -->
+  <g transform="translate(400,160)">
+    <ellipse cx="-12" cy="0" rx="16" ry="24" fill="#dc143c"/>
+    <ellipse cx="12" cy="0" rx="16" ry="24" fill="#dc143c"/>
+    <ellipse cx="0" cy="0" rx="8" ry="16" fill="#b22222"/>
+  </g>
+  
+  <!-- Texto -->
+  <text x="400" y="560" text-anchor="middle" font-family="Georgia, serif" font-size="32" font-weight="bold" fill="#8d4925" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.3)">Te quiere tu amor eterno 💛</text>
+</svg>
