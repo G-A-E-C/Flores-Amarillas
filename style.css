@@ -1,8 +1,67 @@
-/* Reset y configuración base */
+/* Configuración global */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Fix para móviles */
+@media (max-width: 768px) {
+    html {
+        height: 100vh;
+        height: -webkit-fill-available;
+        overflow: hidden;
+    }
+    
+    body {
+        height: 100vh;
+        height: -webkit-fill-available;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+    }
+    
+    .messages-container {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 1000;
+        width: 95% !important;
+        max-width: 400px !important;
+    }
+    
+    .typewriter {
+        font-size: clamp(16px, 5vw, 22px) !important;
+        padding: 15px !important;
+        line-height: 1.3 !important;
+    }
+    
+    .loading-container {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 1000;
+    }
+    
+    .final-message-container {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 1000;
+        width: 95% !important;
+        max-width: 400px !important;
+    }
 }
 
 body {

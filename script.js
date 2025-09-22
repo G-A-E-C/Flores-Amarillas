@@ -28,6 +28,33 @@ class FlowerAnimation {
         this.isAnimationComplete = false;
         this.bouquetFlowers = [];
         this.init();
+        this.fixMobileViewport();
+    }
+
+    // Arreglar viewport en móviles
+    fixMobileViewport() {
+        // Forzar scroll al inicio
+        window.scrollTo(0, 0);
+        
+        // Prevenir scroll durante la animación
+        document.body.style.overflow = 'hidden';
+        
+        // En móviles, ajustar la altura para evitar problemas de viewport
+        if (window.innerWidth <= 768) {
+            document.documentElement.style.height = '100%';
+            document.body.style.height = '100%';
+            
+            // Listener para orientación y redimensionado
+            window.addEventListener('orientationchange', () => {
+                setTimeout(() => {
+                    window.scrollTo(0, 0);
+                }, 100);
+            });
+            
+            window.addEventListener('resize', () => {
+                window.scrollTo(0, 0);
+            });
+        }
     }
 
     init() {
@@ -504,6 +531,9 @@ class FlowerAnimation {
     showActionButtons() {
         const actionButtons = document.getElementById('action-buttons');
         
+        // Habilitar scroll nuevamente
+        document.body.style.overflow = 'auto';
+        
         gsap.to(actionButtons, {
             opacity: 1,
             y: 0,
@@ -617,12 +647,12 @@ class FlowerAnimation {
                 
                 await new Promise((resolve, reject) => {
                     img.onload = () => {
-                        // Dibujar el ramo centrado y escalado
-                        const scale = 0.6;
+                        // Dibujar el ramo centrado y escalado (mucho más grande)
+                        const scale = 1.5; // Aumentado de 0.6 a 1.5
                         const imgWidth = img.width * scale;
                         const imgHeight = img.height * scale;
                         const x = (canvas.width - imgWidth) / 2;
-                        const y = (canvas.height - imgHeight) / 2 - 50;
+                        const y = (canvas.height - imgHeight) / 2 - 30; // Ajustar posición
                         
                         ctx.drawImage(img, x, y, imgWidth, imgHeight);
                         resolve();
@@ -634,11 +664,11 @@ class FlowerAnimation {
             
             // Añadir texto
             ctx.fillStyle = '#8d4925';
-            ctx.font = 'bold 28px Georgia, serif';
+            ctx.font = 'bold 32px Georgia, serif'; // Aumentar tamaño de fuente
             ctx.textAlign = 'center';
             ctx.shadowColor = 'rgba(0,0,0,0.3)';
             ctx.shadowBlur = 3;
-            ctx.fillText('Te quiere tu amor eterno 💛', canvas.width / 2, canvas.height - 60);
+            ctx.fillText('Te quiere tu amor eterno 💛', canvas.width / 2, canvas.height - 40); // Ajustar posición
             
             // Descargar
             const link = document.createElement('a');
@@ -682,12 +712,12 @@ class FlowerAnimation {
                 
                 await new Promise((resolve, reject) => {
                     img.onload = () => {
-                        // Dibujar el ramo centrado y escalado
-                        const scale = type === 'pc' ? 1.0 : 1.3;
+                        // Dibujar el ramo centrado y escalado (mucho más grande)
+                        const scale = type === 'pc' ? 2.0 : 2.5; // Aumentado significativamente
                         const imgWidth = img.width * scale;
                         const imgHeight = img.height * scale;
                         const x = (canvas.width - imgWidth) / 2;
-                        const y = (canvas.height - imgHeight) / 2;
+                        const y = (canvas.height - imgHeight) / 2 - 20; // Ajustar posición
                         
                         ctx.drawImage(img, x, y, imgWidth, imgHeight);
                         resolve();
@@ -698,14 +728,14 @@ class FlowerAnimation {
             }
             
             // Añadir texto
-            const fontSize = type === 'pc' ? 64 : 48;
+            const fontSize = type === 'pc' ? 72 : 56; // Aumentar tamaño de fuente
             ctx.fillStyle = '#8d4925';
             ctx.font = `bold ${fontSize}px Georgia, serif`;
             ctx.textAlign = 'center';
             ctx.shadowColor = 'rgba(0,0,0,0.3)';
             ctx.shadowBlur = 10;
             
-            const textY = type === 'pc' ? canvas.height - 100 : canvas.height - 150;
+            const textY = type === 'pc' ? canvas.height - 80 : canvas.height - 120; // Ajustar posición
             ctx.fillText('Te quiere tu amor eterno 💛', canvas.width / 2, textY);
             
             // Descargar

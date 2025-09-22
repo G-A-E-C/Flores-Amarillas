@@ -2,7 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>Flores Amarillas - Animación Romántica 🌼</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -112,6 +115,38 @@
             </div>
         </div>
     </main>
+
+    <!-- Script para arreglar viewport móvil inmediatamente -->
+    <script>
+        // Función que se ejecuta inmediatamente para arreglar viewport en móviles
+        (function() {
+            // Forzar scroll al inicio
+            window.scrollTo(0, 0);
+            
+            // Prevenir comportamiento de scroll en móviles durante carga
+            if (window.innerWidth <= 768) {
+                document.documentElement.style.height = '100vh';
+                document.documentElement.style.height = '-webkit-fill-available';
+                document.body.style.height = '100vh';
+                document.body.style.height = '-webkit-fill-available';
+                document.body.style.overflow = 'hidden';
+                
+                // Listener para cuando cambie la orientación
+                window.addEventListener('orientationchange', function() {
+                    setTimeout(function() {
+                        window.scrollTo(0, 0);
+                    }, 100);
+                });
+                
+                // Prevenir scroll touch en iOS
+                document.addEventListener('touchmove', function(e) {
+                    if (document.body.style.overflow === 'hidden') {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+            }
+        })();
+    </script>
 
     <script src="script.js"></script>
 </body>
