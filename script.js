@@ -642,6 +642,16 @@ class FlowerAnimation {
             // Convertir SVG del ramo a imagen
             const bouquetSvg = document.querySelector('.bouquet-svg');
             if (bouquetSvg) {
+                // Asegurar que todas las flores están visibles
+                const flowers = bouquetSvg.querySelectorAll('.flower');
+                flowers.forEach(flower => {
+                    flower.style.opacity = '1';
+                    flower.style.visibility = 'visible';
+                });
+                
+                // Esperar a que se rendericen completamente
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
                 const svgData = await this.svgToBase64(bouquetSvg);
                 const img = new Image();
                 
@@ -707,6 +717,16 @@ class FlowerAnimation {
             // Convertir SVG del ramo a imagen
             const bouquetSvg = document.querySelector('.bouquet-svg');
             if (bouquetSvg) {
+                // Asegurar que todas las flores están visibles
+                const flowers = bouquetSvg.querySelectorAll('.flower');
+                flowers.forEach(flower => {
+                    flower.style.opacity = '1';
+                    flower.style.visibility = 'visible';
+                });
+                
+                // Esperar a que se rendericen completamente
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
                 const svgData = await this.svgToBase64(bouquetSvg);
                 const img = new Image();
                 
@@ -754,6 +774,19 @@ class FlowerAnimation {
 
     // Convertir SVG a base64 para evitar canvas tainted
     async svgToBase64(svgElement) {
+        // Verificar que tenemos todas las flores esperadas
+        const flowers = svgElement.querySelectorAll('.flower');
+        console.log(`Flores encontradas en SVG: ${flowers.length}`);
+        
+        if (flowers.length === 0) {
+            console.warn('No se encontraron flores en el SVG');
+            // Intentar obtener el SVG del contenedor principal
+            const mainBouquet = document.querySelector('.bouquet-svg');
+            if (mainBouquet && mainBouquet !== svgElement) {
+                return this.svgToBase64(mainBouquet);
+            }
+        }
+        
         // Clonar el SVG para no afectar el original
         const clonedSvg = svgElement.cloneNode(true);
         
@@ -788,8 +821,25 @@ class FlowerAnimation {
         
         // Crear elemento style con los CSS necesarios
         const styleElement = document.createElement('style');
-        styleElement.textContent = cssText;
+        styleElement.textContent = cssText + `
+            .flower { opacity: 1 !important; visibility: visible !important; }
+            .stem { opacity: 1 !important; visibility: visible !important; }
+            .leaf { opacity: 1 !important; visibility: visible !important; }
+            .bow { opacity: 1 !important; visibility: visible !important; }
+        `;
         clonedSvg.insertBefore(styleElement, clonedSvg.firstChild);
+        
+        // Aplicar estilos inline como respaldo
+        const allElements = clonedSvg.querySelectorAll('*');
+        allElements.forEach(el => {
+            if (el.classList.contains('flower') || 
+                el.classList.contains('stem') || 
+                el.classList.contains('leaf') || 
+                el.classList.contains('bow')) {
+                el.style.opacity = '1';
+                el.style.visibility = 'visible';
+            }
+        });
         
         // Serializar el SVG
         const serializer = new XMLSerializer();
